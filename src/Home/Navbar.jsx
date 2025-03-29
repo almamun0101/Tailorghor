@@ -37,7 +37,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-[#0A2647] text-white p-4 shadow-lg relative">
+    <nav className="bg-[#0A2647] text-white p-4 shadow-lg relative ">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <button
@@ -80,7 +80,7 @@ export default function Navbar() {
             <UserCircleIcon className="w-10 h-10 text-gray-600 hover:text-gray-900" />
           </button>
           {menuOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
+            <div className="absolute -right-4 mt-1 w-48 bg-white border rounded-lg shadow-lg">
               <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
               <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</a>
               <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
