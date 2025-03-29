@@ -1,19 +1,20 @@
+// import Navbar from './Navbar/Navbar';
 
-import Navbar from './Navbar/Navbar'
-import Slideshow from './Home/Slideshow'
+// import Slideshow from './Home/Slideshow';
+import Navbar from './Home/Navbar';
+import { Banner } from './Home/Banner';
+import Slideshow from './Home/Slideshow';
 
-import './App.css'
+import './App.css';
 
 function App() {
- 
-
   return (
-    <>
-     <Navbar />
-     <Slideshow/>
-    </>
-  )
+    <div>
+      <Navbar />
+      <Banner/>
+      {/* <Slideshow /> */}
+    </div>
+  );
 }
 
-export default App
-
+export default App;

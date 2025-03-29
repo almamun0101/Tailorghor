@@ -18,7 +18,7 @@ export default function Slideshow() {
   }, []);
 
   return (
-    <div className="w-full max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-lg">
+    <div className="w-screen mt-10 max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-lg">
       <div className="relative w-full h-64">
         <AnimatePresence>
           <motion.img
