@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const images = [
-  "https://source.unsplash.com/random/800x400?nature",
+  "./banner.jpg",
   "https://source.unsplash.com/random/800x400?city",
   "https://source.unsplash.com/random/800x400?technology",
 ];
 
-export default function Slideshow() {
+export default function Slides() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -18,8 +18,8 @@ export default function Slideshow() {
   }, []);
 
   return (
-    <div className="w-screen mt-10 max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-lg">
-      <div className="relative w-full h-64">
+    <div className="w-screen m-10 max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-lg">
+      <div className="relative w-full h-30">
         <AnimatePresence>
           <motion.img
             key={images[index]}
