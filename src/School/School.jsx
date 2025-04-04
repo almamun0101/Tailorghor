@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 // Sample data of cities and their schools
 const citySchools = {
-  "New York": ["School 1", "School 2", "School 3"],
-  "Los Angeles": ["School A", "School B", "School C"],
-  "Chicago": ["School X", "School Y", "School Z"],
+  "Mirpur": ["School 1", "School 2", "School 3"],
+  "Shamoli": ["School A", "School B", "School C"],
+  "Agargon": ["School X", "School Y", "School Z"],
 };
 
 export const School = () => {
