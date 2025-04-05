@@ -37,40 +37,40 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-[#0A2647] text-white p-4 shadow-lg fixed w-screen z-50">
+    <nav className="bg-pri text-white p-4 shadow-lg fixed w-screen z-50">
       
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-[#E6B400] focus:outline-none w-4"
+          className="md:hidden text-sec focus:outline-none w-4"
         >
           {isOpen ? "X" : "☰"}
         </button>
 
-        <a href="#" className="text-3xl font-bold text-[#E6B400]">
+        <a href="#" className="text-3xl font-bold text-sec">
           Tailor Ghor
         </a>
 
         {/* Navigation Links */}
         <ul className="hidden md:flex space-x-6">
           <li>
-            <a href="#" className="hover:text-[#E6B400] transition">
+            <a href="#" className="hover:text-sec transition">
               Home
             </a>
           </li>
           <li>
-            <a href="#" className="hover:text-[#E6B400] transition">
+            <a href="#" className="hover:text-sec transition">
               Services
             </a>
           </li>
           <li>
-            <a href="#" className="hover:text-[#E6B400] transition">
+            <a href="#" className="hover:text-sec transition">
               Gallery
             </a>
           </li>
           <li>
-            <a href="#" className="hover:text-[#E6B400] transition">
+            <a href="#" className="hover:text-sec transition">
               Contact
             </a>
           </li>
@@ -93,22 +93,22 @@ export default function Navbar() {
       {isOpen && (
         <ul ref={menuRef} className="md:hidden absolute top-full left-0 w-full bg-[#0A2647] text-center flex flex-col  shadow-md">
           <li className="py-2">
-            <a href="#" className="hover:text-[#E6B400] transition">
+            <a href="#" className="hover:text-sec transition">
               Home
             </a>
           </li>
           <li className="py-2">
-            <a href="#" className="hover:text-[#E6B400] transition">
+            <a href="#" className="hover:text-sec transition">
               Services
             </a>
           </li>
           <li className="py-2">
-            <a href="#" className="hover:text-[#E6B400] transition">
+            <a href="#" className="hover:text-sec transition">
               Gallery
             </a>
           </li>
           <li className="py-2">
-            <a href="#" className="hover:text-[#E6B400] transition">
+            <a href="#" className="hover:text-sec transition">
               Contact
             </a>
           </li>
