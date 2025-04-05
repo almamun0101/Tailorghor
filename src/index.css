@@ -10,3 +10,6 @@
   max-width: 1250px;
   margin: 0 auto;
 }
+li{
+  list-style: none;
+}
