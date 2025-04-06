@@ -42,9 +42,9 @@ export const SchoolDress = ({schoolName }) => {
           </select>
 
         </div>
-        <div className="w-full py-4">
+        <div className="w-full mx-auto py-4">
+          <img src={imgUrl} alt="" className="h-2/2 mx-auto"/>
 
-          <img src={imgUrl} alt="" />
         </div>
         <div className="flex gap-2">
           <button className="bg-pri w-1/2 rounded-2xl p-2  text-sec text-lg font-bold">Order</button>

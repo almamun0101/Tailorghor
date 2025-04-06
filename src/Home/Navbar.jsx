@@ -37,7 +37,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-pri text-white p-4 shadow-lg fixed w-screen z-50">
+    <nav className="bg-pri text-white p-2 shadow-lg fixed w-screen z-50">
       
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
