@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TailorGhor – Digital Tailoring Platform Bangladesh</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --red:#C0392B;--navy:#1B2B4B;--cream:#FAF6F0;--gold:#D4A84B;
+  --light:#FFFFFF;--muted:#F5F0EA;--border:#E8E0D5;--text:#2C2C2C;--textmid:#6B6056;--textlight:#9E9287;
+  --shadow:0 2px 20px rgba(27,43,75,0.08);--radius:12px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+h1,h2,h3,.brand{font-family:'Playfair Display',serif}
+
+/* PRELOADER */
+#preloader{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s ease}
+#preloader.hide{opacity:0;pointer-events:none}
+.pre-logo{color:white;font-size:2.2rem;font-family:'Playfair Display',serif;margin-top:1.5rem;letter-spacing:1px}
+.pre-sub{color:rgba(255,255,255,0.5);font-size:0.85rem;margin-top:0.3rem;letter-spacing:3px;text-transform:uppercase}
+.sewing-scene{position:relative;width:180px;height:140px}
+.thread-line{stroke:#D4A84B;stroke-width:2;fill:none;stroke-dasharray:200;stroke-dashoffset:200;animation:sew 2s ease forwards 0.5s}
+.needle{animation:needleBob 0.4s ease-in-out infinite 0.5s}
+.fabric-anim{animation:fabricSlide 2s ease forwards 0.5s}
+@keyframes sew{to{stroke-dashoffset:0}}
+@keyframes needleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+@keyframes fabricSlide{to{transform:translateX(20px)}}
+.pre-dots{display:flex;gap:6px;margin-top:2rem}
+.pre-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);animation:dotPulse 1.2s ease-in-out infinite}
+.pre-dot:nth-child(2){animation-delay:0.2s}
+.pre-dot:nth-child(3){animation-delay:0.4s}
+@keyframes dotPulse{0%,80%,100%{transform:scale(0.8);opacity:0.4}40%{transform:scale(1.2);opacity:1}}
+.wheel-spin{animation:wheelSpin 1s linear infinite}
+@keyframes wheelSpin{from{transform:rotate(0deg) translateX(0)}to{transform:rotate(360deg)}}
+.wheel-center{transform-origin:145px 75px;animation:wheelRotate 0.8s linear infinite}
+@keyframes wheelRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* NAV */
+#app{display:none;min-height:100vh}
+#app.show{display:block}
+.nav{background:var(--navy);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.2)}
+.nav-brand{color:white;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:'Playfair Display',serif}
+.nav-brand span{color:var(--gold)}
+.nav-links{display:flex;gap:2px}
+.nav-link{color:rgba(255,255,255,0.7);background:none;border:none;padding:6px 11px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-family:'DM Sans',sans-serif;transition:all 0.2s;letter-spacing:0.2px}
+.nav-link:hover,.nav-link.active{background:rgba(255,255,255,0.12);color:white}
+.nav-cart{background:var(--red);color:white;border:none;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:0.82rem;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;transition:background 0.2s}
+.nav-cart:hover{background:#a93226}
+.cart-badge{background:var(--gold);color:var(--navy);border-radius:50%;width:19px;height:19px;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+/* PAGES */
+.page{display:none;padding:0 0 4rem;min-height:calc(100vh - 60px)}
+.page.active{display:block}
+
+/* HOME HERO */
+.hero{background:var(--navy);padding:4.5rem 2rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(192,57,43,0.05) 40px,rgba(192,57,43,0.05) 80px)}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to bottom,transparent,rgba(27,43,75,0.3))}
+.hero h1{color:white;font-size:2.6rem;line-height:1.18;margin-bottom:1rem;position:relative;z-index:1}
+.hero h1 em{color:var(--gold);font-style:normal;display:block}
+.hero p{color:rgba(255,255,255,0.62);font-size:1rem;max-width:460px;margin:0 auto 2.2rem;line-height:1.65;position:relative;z-index:1}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+
+/* BUTTONS */
+.btn{padding:12px 26px;border-radius:8px;border:none;cursor:pointer;font-size:0.9rem;font-family:'DM Sans',sans-serif;font-weight:500;transition:all 0.2s;letter-spacing:0.2px}
+.btn-primary{background:var(--red);color:white}
+.btn-primary:hover{background:#a93226;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:white;border:1.5px solid rgba(255,255,255,0.4)}
+.btn-outline:hover{background:rgba(255,255,255,0.1)}
+.btn-navy{background:var(--navy);color:white}
+.btn-navy:hover{background:#152238}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:#c49a40}
+.btn-sm{padding:7px 14px;font-size:0.8rem;border-radius:6px}
+.btn-block{width:100%}
+
+/* STATS BAR */
+.stats-bar{background:var(--light);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;justify-content:space-around;flex-wrap:wrap;gap:0.5rem}
+.stat-item{text-align:center;padding:0.4rem 1rem}
+.stat-num-home{font-size:1.4rem;font-weight:700;color:var(--red);font-family:'Playfair Display',serif}
+.stat-label-home{font-size:0.75rem;color:var(--textmid);margin-top:1px;letter-spacing:0.3px}
+
+/* SECTION */
+.section{padding:3rem 2rem}
+.section-alt{background:var(--muted);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.section-title{font-size:1.6rem;color:var(--navy);margin-bottom:0.4rem}
+.section-sub{color:var(--textmid);font-size:0.9rem;margin-bottom:2rem;line-height:1.5}
+
+/* GRIDS */
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
+
+/* CARDS */
+.card{background:var(--light);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all 0.25s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(27,43,75,0.12)}
+.card-img{height:150px;background:var(--muted);display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative}
+.card-badge{position:absolute;top:10px;right:10px;background:var(--red);color:white;font-size:0.7rem;padding:3px 9px;border-radius:20px;font-weight:500}
+.card-badge.gold{background:var(--gold);color:var(--navy)}
+.card-badge.green{background:#27ae60;color:white}
+.card-body{padding:1.1rem}
+.card-title{font-weight:600;font-size:0.95rem;margin-bottom:0.35rem;color:var(--text)}
+.card-sub{color:var(--textmid);font-size:0.82rem;line-height:1.45}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:0.9rem;padding-top:0.9rem;border-top:1px solid var(--border)}
+.price{color:var(--red);font-weight:600;font-size:0.95rem}
+.stars{color:var(--gold);font-size:0.82rem}
+
+/* PAGE HEADER */
+.page-header{background:var(--navy);padding:2.2rem 2rem;color:white;position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.03)}
+.page-header h2{font-size:1.75rem;margin-bottom:0.4rem;position:relative;z-index:1}
+.page-header p{color:rgba(255,255,255,0.58);font-size:0.88rem;position:relative;z-index:1}
+.back-bar{background:var(--navy);padding:0.9rem 1.5rem;display:flex;align-items:center;gap:1rem;color:white}
+.back-btn{background:rgba(255,255,255,0.1);border:none;color:white;cursor:pointer;font-size:1rem;padding:5px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif;font-size:0.82rem;transition:background 0.2s}
+.back-btn:hover{background:rgba(255,255,255,0.2)}
+
+/* FILTER BAR */
+.filter-bar{background:var(--light);padding:1rem 2rem;border-bottom:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.select-field{padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.85rem;background:white;color:var(--text);min-width:140px;cursor:pointer}
+.select-field:focus{outline:none;border-color:var(--navy)}
+.search-field{flex:1;min-width:180px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.85rem;background:white;color:var(--text)}
+.search-field:focus{outline:none;border-color:var(--navy)}
+
+/* SCHOOL LIST */
+.school-list{padding:1.5rem 2rem}
+.school-item{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.4rem;margin-bottom:0.7rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all 0.2s}
+.school-item:hover{border-color:var(--red);background:#fdf8f8;transform:translateX(3px)}
+.school-name{font-weight:500;font-size:0.9rem;color:var(--text)}
+.school-loc{color:var(--textlight);font-size:0.78rem;margin-top:3px}
+.school-badge{font-size:0.73rem;padding:3px 10px;border-radius:20px;background:var(--muted);color:var(--textmid);font-weight:500}
+.school-badge.govt{background:#e8f4fd;color:#1a6fa6}
+.school-badge.private{background:#fef9e7;color:#b7950b}
+.school-badge.cadet{background:#e8f8f5;color:#1a8a6f}
+
+/* DRESS ORDER */
+.dress-page{padding:1.8rem 2rem}
+.dress-school-banner{background:linear-gradient(135deg,var(--navy),#2a4073);border-radius:var(--radius);padding:1.3rem 1.5rem;color:white;margin-bottom:1.8rem;display:flex;align-items:center;gap:1.2rem;border:1px solid rgba(255,255,255,0.08)}
+.dress-school-icon{font-size:2.8rem;flex-shrink:0}
+.dress-form{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.8rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:0}
+.form-group{margin-bottom:1.2rem}
+.form-label{display:block;font-size:0.75rem;font-weight:600;color:var(--textmid);margin-bottom:7px;text-transform:uppercase;letter-spacing:0.8px}
+.radio-group{display:flex;gap:8px;flex-wrap:wrap}
+.radio-btn{padding:9px 18px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:0.85rem;transition:all 0.2s;background:white;user-select:none}
+.radio-btn:hover{border-color:var(--red)}
+.radio-btn.selected{border-color:var(--red);background:#fdf3f2;color:var(--red);font-weight:500}
+.size-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.size-btn{padding:9px 6px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;font-size:0.85rem;text-align:center;transition:all 0.2s;background:white;font-weight:500}
+.size-btn:hover{border-color:var(--navy)}
+.size-btn.selected{border-color:var(--navy);background:var(--navy);color:white}
+.dress-preview{background:var(--muted);border-radius:var(--radius);padding:1.3rem;margin-top:1.5rem;border:1px solid var(--border)}
+.preview-title{font-weight:600;margin-bottom:0.9rem;color:var(--navy);font-size:0.9rem;text-transform:uppercase;letter-spacing:0.5px}
+.preview-tags{display:flex;flex-wrap:wrap;gap:7px}
+.tag{background:var(--navy);color:white;font-size:0.78rem;padding:4px 11px;border-radius:20px}
+.price-summary{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;margin-top:1rem}
+.price-row{display:flex;justify-content:space-between;font-size:0.88rem;margin-bottom:0.55rem;color:var(--textmid)}
+.price-total{font-weight:600;font-size:1rem;color:var(--text);border-top:1px solid var(--border);padding-top:0.9rem;margin-top:0.5rem;margin-bottom:0}
+.qty-control{display:flex;align-items:center;gap:14px}
+.qty-btn{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border);background:white;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.qty-btn:hover{border-color:var(--navy);background:var(--navy);color:white}
+.qty-num{font-weight:600;font-size:1.2rem;min-width:24px;text-align:center}
+
+/* TAILORS */
+.chip-bar{background:var(--light);padding:0.9rem 2rem;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-chip{padding:7px 16px;border:1.5px solid var(--border);border-radius:20px;font-size:0.82rem;cursor:pointer;background:white;transition:all 0.2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.filter-chip:hover{border-color:var(--navy)}
+.filter-chip.active{background:var(--navy);color:white;border-color:var(--navy)}
+.tailor-grid{padding:1.8rem 2rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.2rem}
+.tailor-card{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all 0.25s}
+.tailor-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(27,43,75,0.12)}
+.tailor-card-top{height:115px;background:var(--navy);display:flex;align-items:center;justify-content:center;position:relative}
+.tailor-avatar-lg{width:72px;height:72px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.9rem;border:3px solid rgba(255,255,255,0.3)}
+.tailor-pro-badge{position:absolute;top:10px;right:10px;background:var(--gold);color:var(--navy);font-size:0.68rem;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:0.5px}
+.tailor-info{padding:1.1rem}
+.tailor-name{font-weight:600;font-size:0.95rem;color:var(--text)}
+.tailor-loc{color:var(--textlight);font-size:0.79rem;margin-top:3px}
+.tailor-meta{display:flex;align-items:center;justify-content:space-between;margin-top:0.9rem;padding-top:0.9rem;border-top:1px solid var(--border)}
+.tailor-rate{color:var(--red);font-weight:600;font-size:0.88rem}
+.tailor-rating{font-size:0.8rem;color:var(--textmid);display:flex;align-items:center;gap:4px}
+
+/* TAILOR PROFILE */
+.profile-hero{background:var(--navy);padding:2rem 2rem;color:white}
+.profile-top{display:flex;gap:1.2rem;align-items:flex-start;margin-bottom:1.5rem}
+.profile-avatar{width:82px;height:82px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0;border:3px solid rgba(255,255,255,0.25)}
+.profile-name{font-size:1.5rem;margin-bottom:0.3rem;color:white}
+.profile-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:0.6rem}
+.profile-tag{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:0.73rem;padding:3px 11px;border-radius:20px;letter-spacing:0.3px}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.1);border-radius:var(--radius);overflow:hidden}
+.stat-box{background:rgba(255,255,255,0.04);padding:1.1rem;text-align:center}
+.stat-num{font-size:1.5rem;font-weight:700;color:var(--gold);font-family:'Playfair Display',serif}
+.stat-label{font-size:0.73rem;color:rgba(255,255,255,0.45);margin-top:3px;text-transform:uppercase;letter-spacing:0.5px}
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:1.2rem}
+.portfolio-item{height:95px;background:var(--muted);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.9rem;border:1px solid var(--border);transition:transform 0.2s}
+.portfolio-item:hover{transform:scale(1.04)}
+.review-card{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:0.8rem}
+.review-name{font-weight:500;font-size:0.88rem}
+.review-text{color:var(--textmid);font-size:0.85rem;margin-top:0.4rem;line-height:1.6}
+.review-date{color:var(--textlight);font-size:0.75rem;margin-top:0.5rem}
+.service-row{display:flex;justify-content:space-between;align-items:center;padding:0.75rem 0;border-bottom:1px solid var(--border)}
+.service-row:last-child{border-bottom:none}
+
+/* CUSTOM ORDER */
+.order-steps{display:flex;padding:1.2rem 2rem;gap:0;background:var(--light);border-bottom:1px solid var(--border)}
+.step-item{display:flex;flex-direction:column;align-items:center;flex:1;min-width:60px}
+.step-circle{width:34px;height:34px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.82rem;font-weight:600;background:white;color:var(--textlight);transition:all 0.3s}
+.step-circle.done{background:var(--red);border-color:var(--red);color:white}
+.step-circle.active{background:var(--navy);border-color:var(--navy);color:white}
+.step-label{font-size:0.68rem;color:var(--textlight);margin-top:5px;text-align:center;letter-spacing:0.2px}
+.step-line{height:2px;flex:1;background:var(--border);margin-top:17px;transition:background 0.3s}
+.step-line.done{background:var(--red)}
+.order-section{padding:1.8rem 2rem}
+.dress-type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:9px}
+.dress-type-item{background:var(--light);border:1.5px solid var(--border);border-radius:var(--radius);padding:1rem 0.5rem;text-align:center;cursor:pointer;transition:all 0.2s}
+.dress-type-item:hover,.dress-type-item.selected{border-color:var(--red);background:#fdf3f2}
+.dress-type-icon{font-size:1.9rem;margin-bottom:0.4rem}
+.dress-type-name{font-size:0.76rem;font-weight:500;color:var(--textmid)}
+.measure-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+.measure-input{padding:10px 13px;border:1px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.88rem;width:100%;background:white;color:var(--text);transition:border 0.2s}
+.measure-input:focus{outline:none;border-color:var(--navy)}
+.fabric-option{display:flex;align-items:center;gap:1rem;padding:0.9rem 1.1rem;border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all 0.2s;background:white;margin-bottom:0.7rem}
+.fabric-option:hover,.fabric-option.selected{border-color:var(--red);background:#fdf3f2}
+.fabric-icon{font-size:1.6rem;flex-shrink:0}
+.tip-box{background:#fffbf0;border:1px solid #f0e6c8;border-radius:9px;padding:0.9rem 1rem;font-size:0.8rem;color:#8a6a1a;display:flex;gap:0.6rem;align-items:flex-start}
+.warn-box{background:#fff8f0;border:1px solid #f0d8c0;border-radius:9px;padding:0.9rem 1rem;font-size:0.8rem;color:#b06820;display:flex;gap:0.6rem;align-items:flex-start;margin-top:1rem}
+
+/* CART */
+.cart-page{padding:1.8rem 2rem}
+.cart-item{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.2rem;margin-bottom:0.8rem;display:flex;gap:1rem;align-items:flex-start;transition:border-color 0.2s}
+.cart-item:hover{border-color:var(--border)}
+.cart-item-icon{font-size:2rem;width:52px;height:52px;background:var(--muted);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cart-item-info{flex:1}
+.cart-item-name{font-weight:600;font-size:0.9rem}
+.cart-item-sub{color:var(--textmid);font-size:0.8rem;margin-top:3px;line-height:1.45}
+.cart-item-price{color:var(--red);font-weight:600;font-size:0.9rem;margin-top:6px}
+.remove-btn{background:none;border:1px solid var(--border);color:var(--textlight);cursor:pointer;font-size:0.85rem;padding:5px 8px;border-radius:6px;transition:all 0.2s}
+.remove-btn:hover{border-color:var(--red);color:var(--red);background:#fdf3f2}
+.cart-summary{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;margin-bottom:1.2rem}
+.checkout-form{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.8rem}
+.payment-methods{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px;margin-top:0.7rem}
+.payment-option{border:1.5px solid var(--border);border-radius:9px;padding:0.9rem 0.5rem;text-align:center;cursor:pointer;transition:all 0.2s;background:white}
+.payment-option:hover{border-color:var(--navy)}
+.payment-option.selected{border-color:var(--navy);background:#f0f3f9}
+.payment-icon{font-size:1.6rem;margin-bottom:0.3rem}
+.payment-name{font-size:0.75rem;font-weight:500;color:var(--textmid)}
+
+/* TRACKING */
+.tracking-hero{background:var(--navy);padding:2.2rem 2rem;color:white;text-align:center}
+.order-id-badge{background:rgba(255,255,255,0.1);display:inline-block;padding:6px 18px;border-radius:20px;font-size:0.82rem;margin-bottom:1rem;color:var(--gold);letter-spacing:1px;font-weight:500;border:1px solid rgba(212,168,75,0.3)}
+.progress-bar{background:var(--border);height:6px;border-radius:3px;margin:1.5rem 2rem 0.5rem;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(to right,var(--red),#e74c3c);border-radius:3px;transition:width 1.2s ease}
+.progress-label{text-align:center;font-size:0.82rem;color:var(--textmid);margin:0 2rem 1.5rem}
+.tracking-steps{padding:1.5rem 2rem}
+.track-item{display:flex;gap:1.1rem;margin-bottom:1.8rem;position:relative}
+.track-item::after{content:'';position:absolute;left:17px;top:38px;width:2px;height:calc(100% - 8px);background:var(--border);z-index:0}
+.track-item:last-child::after{display:none}
+.track-item.done::after{background:var(--red)}
+.track-dot{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:white;font-size:0.88rem;z-index:1;position:relative}
+.track-dot.done{background:var(--red);border-color:var(--red);color:white}
+.track-dot.active{background:var(--gold);border-color:var(--gold)}
+.track-content{flex:1;padding-top:4px}
+.track-title{font-weight:600;font-size:0.9rem}
+.track-date{color:var(--textlight);font-size:0.78rem;margin-top:3px}
+.track-note{background:var(--muted);border-radius:7px;padding:0.65rem 0.9rem;font-size:0.8rem;color:var(--textmid);margin-top:0.55rem;line-height:1.5;border:1px solid var(--border)}
+
+/* DASHBOARD */
+.dash-welcome{background:var(--navy);padding:1.8rem 2rem;color:white;display:flex;justify-content:space-between;align-items:center}
+.dash-avatar{width:46px;height:46px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);font-size:0.95rem}
+.dash-grid{padding:1.8rem 2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.dash-card{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem}
+.dash-card-icon{font-size:1.6rem;margin-bottom:0.6rem}
+.dash-card-num{font-size:1.8rem;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif}
+.dash-card-label{font-size:0.78rem;color:var(--textmid);margin-top:3px}
+.dash-section{padding:0 2rem 1rem}
+.dash-orders{margin-bottom:0.5rem}
+.dash-order{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:0.9rem 1.1rem;margin-bottom:0.7rem;display:flex;align-items:center;gap:0.9rem;cursor:pointer;transition:all 0.2s}
+.dash-order:hover{border-color:var(--navy);transform:translateX(2px)}
+.dash-order-icon{font-size:1.4rem}
+.dash-order-info{flex:1}
+.dash-order-name{font-size:0.88rem;font-weight:500}
+.dash-order-status{font-size:0.73rem;margin-top:3px}
+.status-badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:0.71rem;font-weight:600}
+.status-placed{background:#e8f4fd;color:#1a6fa6}
+.status-production{background:#fff3e0;color:#c67c00}
+.status-delivered{background:#e8f5e9;color:#2e7d32}
+.status-stitching{background:#f3e5f5;color:#7b1fa2}
+.status-delivery{background:#e0f2f1;color:#00695c}
+.measure-profile{background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:0.8rem}
+.measure-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:0.8rem}
+.measure-mini{background:var(--muted);border-radius:7px;padding:0.55rem;text-align:center}
+.measure-mini-label{font-size:0.68rem;color:var(--textmid)}
+.measure-mini-val{font-weight:600;font-size:0.88rem;color:var(--navy)}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.8rem;right:1.8rem;background:var(--navy);color:white;padding:0.9rem 1.3rem;border-radius:9px;font-size:0.85rem;z-index:10000;transform:translateY(120px);opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);display:flex;align-items:center;gap:9px;box-shadow:0 8px 30px rgba(27,43,75,0.25);max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-icon{color:var(--gold);font-size:1.1rem}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--textmid)}
+.empty-icon{font-size:3.5rem;margin-bottom:1rem;display:block}
+.empty-text{font-size:0.9rem;line-height:1.7}
+
+/* HOW IT WORKS */
+.how-item{text-align:center;padding:1.5rem}
+.how-icon{font-size:2.8rem;margin-bottom:0.9rem;display:block}
+.how-num{width:28px;height:28px;border-radius:50%;background:var(--red);color:white;font-size:0.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 0.7rem}
+.how-title{font-weight:600;margin-bottom:0.45rem;font-size:0.95rem}
+.how-text{color:var(--textmid);font-size:0.83rem;line-height:1.6}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:0 2rem}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero h1{font-size:1.9rem}
+  .section{padding:2rem 1.2rem}
+  .filter-bar,.chip-bar{padding:0.8rem 1.2rem}
+  .school-list{padding:1rem 1.2rem}
+  .dress-page,.order-section,.tracking-steps,.dash-grid,.dash-section,.tailor-grid{padding-left:1.2rem;padding-right:1.2rem}
+  .form-row{grid-template-columns:1fr}
+  .profile-top{flex-direction:column;align-items:center;text-align:center}
+  .nav-links{display:none}
+  .stats-bar{padding:0.8rem 1rem}
+  .progress-bar,.progress-label{margin-left:1.2rem;margin-right:1.2rem}
+}
+@media(max-width:480px){
+  .size-grid{grid-template-columns:repeat(4,1fr)}
+  .dash-grid{grid-template-columns:1fr 1fr}
+  .payment-methods{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="sewing-scene">
+    <svg viewBox="0 0 180 140" xmlns="http://www.w3.org/2000/svg" width="180" height="140">
+      <!-- Machine body -->
+      <rect x="20" y="50" width="140" height="70" rx="10" fill="#C0392B"/>
+      <rect x="20" y="105" width="140" height="14" rx="4" fill="#991f14"/>
+      <!-- Top arm -->
+      <rect x="60" y="28" width="80" height="28" rx="8" fill="#991f14"/>
+      <rect x="124" y="28" width="16" height="50" rx="5" fill="#a32010"/>
+      <!-- Bobbin -->
+      <circle cx="85" cy="68" r="16" fill="#D4A84B"/>
+      <circle cx="85" cy="68" r="8" fill="#991f14"/>
+      <circle cx="85" cy="68" r="3" fill="#D4A84B"/>
+      <!-- Needle (animated) -->
+      <g class="needle">
+        <rect x="118" y="58" width="4" height="32" rx="2" fill="#f0ebe4"/>
+        <rect x="118" y="85" width="4" height="7" rx="1" fill="#b0a898"/>
+        <ellipse cx="120" cy="93" rx="2.5" ry="2" fill="none" stroke="#D4A84B" stroke-width="1.5"/>
+      </g>
+      <!-- Animated thread path -->
+      <path d="M85 55 C 100 50 110 78 120 91" class="thread-line"/>
+      <!-- Fabric (animated) -->
+      <g class="fabric-anim">
+        <rect x="15" y="108" width="70" height="11" rx="3" fill="#FAF6F0"/>
+        <rect x="15" y="110" width="70" height="2" rx="1" fill="#E8E0D5"/>
+        <rect x="15" y="114" width="70" height="2" rx="1" fill="#E8E0D5"/>
+      </g>
+      <!-- Wheel group (animated rotation) -->
+      <g class="wheel-center">
+        <circle cx="145" cy="75" r="15" fill="#991f14" stroke="#D4A84B" stroke-width="2.5"/>
+        <circle cx="145" cy="75" r="6" fill="#D4A84B"/>
+        <line x1="145" y1="60" x2="145" y2="90" stroke="rgba(250,246,240,0.35)" stroke-width="2"/>
+        <line x1="130" y1="75" x2="160" y2="75" stroke="rgba(250,246,240,0.35)" stroke-width="2"/>
+      </g>
+      <!-- Light reflection -->
+      <ellipse cx="55" cy="62" rx="12" ry="5" fill="rgba(255,255,255,0.07)"/>
+    </svg>
+  </div>
+  <div class="pre-logo">Tailor<span style="color:#D4A84B">Ghor</span></div>
+  <div class="pre-sub">আপনার পোশাক, আপনার মতো</div>
+  <div class="pre-dots">
+    <div class="pre-dot"></div>
+    <div class="pre-dot"></div>
+    <div class="pre-dot"></div>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✓</span>
+  <span id="toast-msg">Done!</span>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <!-- NAVIGATION -->
+  <nav class="nav">
+    <div class="nav-brand" onclick="showPage('home')">
+      🧵 Tailor<span>Ghor</span>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link" onclick="showPage('home')">Home</button>
+      <button class="nav-link" onclick="showPage('school')">School Dress</button>
+      <button class="nav-link" onclick="showPage('tailors')">Find Tailors</button>
+      <button class="nav-link" onclick="showPage('tracking')">Track Order</button>
+      <button class="nav-link" onclick="showPage('dashboard')">My Account</button>
+    </div>
+    <button class="nav-cart" onclick="showPage('cart')">
+      🛒 Cart <span class="cart-badge" id="cart-count">0</span>
+    </button>
+  </nav>
+
+  <!-- ==================== HOME PAGE ==================== -->
+  <div class="page active" id="page-home">
+    <div class="hero">
+      <h1>Bangladesh's First<br/><em>Digital Tailoring</em> Platform</h1>
+      <p>Order school uniforms from 500+ schools, hire expert local tailors, and get custom clothing crafted perfectly for you — all in one place.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary" onclick="showPage('school')">🏫 Order School Dress</button>
+        <button class="btn btn-outline" onclick="showPage('tailors')">🧵 Find a Tailor</button>
+      </div>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-num-home">500+</div><div class="stat-label-home">Schools Listed</div></div>
+      <div class="stat-item"><div class="stat-num-home">1,200+</div><div class="stat-label-home">Expert Tailors</div></div>
+      <div class="stat-item"><div class="stat-num-home">15,000+</div><div class="stat-label-home">Orders Delivered</div></div>
+      <div class="stat-item"><div class="stat-num-home">4.8 ★</div><div class="stat-label-home">Avg Rating</div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Popular Schools</h2>
+      <p class="section-sub">Predefined dress codes for top institutions across Bangladesh</p>
+      <div class="grid-3">
+        <div class="card" onclick="selectSchool('Dhaka Residential Model College','Dhaka')">
+          <div class="card-img" style="background:#1B2B4B;font-size:2.5rem">🏫<span class="card-badge">Dhaka</span></div>
+          <div class="card-body">
+            <div class="card-title">Dhaka Residential Model College</div>
+            <div class="card-sub">White shirt · Navy pant/skirt · Striped tie</div>
+            <div class="card-footer"><span class="price">From ৳850</span><span style="color:var(--red)">Order →</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="selectSchool('Viqarunnisa Noon School','Dhaka')">
+          <div class="card-img" style="background:#2a3f6f;font-size:2.5rem">🏫<span class="card-badge gold">Popular</span></div>
+          <div class="card-body">
+            <div class="card-title">Viqarunnisa Noon School</div>
+            <div class="card-sub">White shalwar kameez · Green dupatta · Badge</div>
+            <div class="card-footer"><span class="price">From ৳920</span><span style="color:var(--red)">Order →</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="selectSchool('Chittagong Collegiate School','Chittagong')">
+          <div class="card-img" style="background:#1a3a4a;font-size:2.5rem">🏫<span class="card-badge">Ctg</span></div>
+          <div class="card-body">
+            <div class="card-title">Chittagong Collegiate School</div>
+            <div class="card-sub">Blue shirt · Khaki pant · School crest badge</div>
+            <div class="card-footer"><span class="price">From ৳780</span><span style="color:var(--red)">Order →</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:1.5rem">
+        <button class="btn btn-navy" onclick="showPage('school')">Browse All 500+ Schools →</button>
+      </div>
+    </div>
+
+    <div class="section section-alt">
+      <h2 class="section-title">Top Rated Tailors</h2>
+      <p class="section-sub">Master craftspeople trusted by thousands of happy customers</p>
+      <div class="grid-3">
+        <div class="card" onclick="showTailorProfile(0)">
+          <div class="card-img" style="background:#1B2B4B;flex-direction:column;gap:0.5rem">
+            <div style="width:60px;height:60px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.7rem;border:2.5px solid rgba(255,255,255,0.3)">🧑</div>
+            <span class="card-badge gold">PRO</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Rahim Tailors</div>
+            <div class="card-sub">📍 Dhanmondi, Dhaka · 8 years experience</div>
+            <div class="card-footer"><span class="price">From ৳350</span><span class="stars">★★★★★ 4.9</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="showTailorProfile(1)">
+          <div class="card-img" style="background:#2a4073;flex-direction:column;gap:0.5rem">
+            <div style="width:60px;height:60px;border-radius:50%;background:#e8c56e;display:flex;align-items:center;justify-content:center;font-size:1.7rem;border:2.5px solid rgba(255,255,255,0.3)">👩</div>
+            <span class="card-badge gold">PRO</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Shahanara Fashion</div>
+            <div class="card-sub">📍 Gulshan, Dhaka · 12 years experience</div>
+            <div class="card-footer"><span class="price">From ৳450</span><span class="stars">★★★★★ 4.8</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="showTailorProfile(2)">
+          <div class="card-img" style="background:#1a3a3a;flex-direction:column;gap:0.5rem">
+            <div style="width:60px;height:60px;border-radius:50%;background:#a8d8a8;display:flex;align-items:center;justify-content:center;font-size:1.7rem;border:2.5px solid rgba(255,255,255,0.3)">🧑</div>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Al-Amin Boutique</div>
+            <div class="card-sub">📍 Agrabad, Chittagong · 6 years experience</div>
+            <div class="card-footer"><span class="price">From ৳280</span><span class="stars">★★★★½ 4.7</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:1.5rem">
+        <button class="btn btn-navy" onclick="showPage('tailors')">View All Tailors →</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-sub">Three easy steps to get your perfect garment delivered</p>
+      <div class="grid-3">
+        <div class="how-item">
+          <div class="how-num">1</div>
+          <span class="how-icon">🔍</span>
+          <div class="how-title">Search & Select</div>
+          <div class="how-text">Find your school or browse local tailors by rating, specialty, and location</div>
+        </div>
+        <div class="how-item">
+          <div class="how-num">2</div>
+          <span class="how-icon">📐</span>
+          <div class="how-title">Customize & Order</div>
+          <div class="how-text">Choose fabric, size, and style. Enter custom measurements or use standard sizing</div>
+        </div>
+        <div class="how-item">
+          <div class="how-num">3</div>
+          <span class="how-icon">🚚</span>
+          <div class="how-title">Track & Receive</div>
+          <div class="how-text">Follow your order live from stitching to doorstep delivery with real-time updates</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="section section-alt">
+      <h2 class="section-title">Browse by Category</h2>
+      <p class="section-sub">Find exactly what you're looking for</p>
+      <div class="grid-4">
+        <div class="card" onclick="showPage('school')" style="text-align:center">
+          <div class="card-img" style="height:100px;font-size:2.5rem">🏫</div>
+          <div class="card-body"><div class="card-title">School Uniforms</div></div>
+        </div>
+        <div class="card" onclick="showPage('tailors')" style="text-align:center">
+          <div class="card-img" style="height:100px;font-size:2.5rem">🤵</div>
+          <div class="card-body"><div class="card-title">Wedding Suits</div></div>
+        </div>
+        <div class="card" onclick="showPage('tailors')" style="text-align:center">
+          <div class="card-img" style="height:100px;font-size:2.5rem">🥻</div>
+          <div class="card-body"><div class="card-title">Saree & Kameez</div></div>
+        </div>
+        <div class="card" onclick="showPage('tailors')" style="text-align:center">
+          <div class="card-img" style="height:100px;font-size:2.5rem">🕌</div>
+          <div class="card-body"><div class="card-title">Panjabi & Kurta</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SCHOOL PAGE ==================== -->
+  <div class="page" id="page-school">
+    <div class="page-header">
+      <h2>School Dress Orders</h2>
+      <p>Search from 500+ schools across all divisions of Bangladesh</p>
+    </div>
+    <div class="filter-bar">
+      <select class="select-field" id="div-select" onchange="renderSchools()">
+        <option value="">All Divisions</option>
+        <option>Dhaka</option><option>Chittagong</option><option>Rajshahi</option>
+        <option>Sylhet</option><option>Khulna</option><option>Barisal</option><option>Mymensingh</option>
+      </select>
+      <select class="select-field" id="city-select" onchange="renderSchools()">
+        <option value="">All Cities</option>
+        <option>Dhaka</option><option>Chittagong</option><option>Rajshahi</option>
+        <option>Sylhet</option><option>Khulna</option><option>Barisal</option><option>Narayanganj</option>
+      </select>
+      <input class="search-field" id="school-search" type="text" placeholder="🔍  Search school by name..." oninput="renderSchools()">
+    </div>
+    <div class="school-list" id="school-list"></div>
+  </div>
+
+  <!-- ==================== DRESS PRODUCT PAGE ==================== -->
+  <div class="page" id="page-dress">
+    <div class="back-bar">
+      <button class="back-btn" onclick="showPage('school')">← Back to Schools</button>
+      <span style="color:rgba(255,255,255,0.6);font-size:0.82rem" id="dress-school-name">Select Options</span>
+    </div>
+    <div class="dress-page">
+      <div class="dress-school-banner">
+        <div class="dress-school-icon">🏫</div>
+        <div>
+          <div style="font-weight:700;font-size:1.05rem" id="dress-school-name2">School Name</div>
+          <div style="opacity:0.65;font-size:0.82rem;margin-top:2px" id="dress-school-loc">Location</div>
+          <div style="font-size:0.75rem;margin-top:5px;background:rgba(255,255,255,0.1);display:inline-block;padding:2px 10px;border-radius:20px;color:rgba(255,255,255,0.75)">✓ Predefined dress code applied</div>
+        </div>
+      </div>
+
+      <div class="dress-form">
+        <div class="form-group">
+          <label class="form-label">Gender</label>
+          <div class="radio-group">
+            <div class="radio-btn selected" onclick="selectOption('gender','Boy',this)">👦 Boy</div>
+            <div class="radio-btn" onclick="selectOption('gender','Girl',this)">👧 Girl</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Size</label>
+          <div class="size-grid">
+            <div class="size-btn selected" onclick="selectSize(this)">S</div>
+            <div class="size-btn" onclick="selectSize(this)">M</div>
+            <div class="size-btn" onclick="selectSize(this)">L</div>
+            <div class="size-btn" onclick="selectSize(this)">XL</div>
+            <div class="size-btn" onclick="selectSize(this)">Custom</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Shirt Type</label>
+            <div class="radio-group" style="flex-direction:column">
+              <div class="radio-btn selected" onclick="selectOption('shirt','Full Sleeve',this)">Full Sleeve</div>
+              <div class="radio-btn" onclick="selectOption('shirt','Half Sleeve',this)">Half Sleeve</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bottom</label>
+            <div class="radio-group" style="flex-direction:column">
+              <div class="radio-btn selected" onclick="selectOption('bottom','Pant',this)">Pant</div>
+              <div class="radio-btn" onclick="selectOption('bottom','Skirt',this)">Skirt</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Fabric Type</label>
+          <div class="radio-group">
+            <div class="radio-btn selected" onclick="selectOption('fabric','Cotton',this)" style="text-align:center">
+              🧵 Cotton<br><small style="color:var(--textlight);font-size:0.72rem">৳850</small>
+            </div>
+            <div class="radio-btn" onclick="selectOption('fabric','Blended',this)" style="text-align:center">
+              ✨ Blended<br><small style="color:var(--textlight);font-size:0.72rem">৳1,050</small>
+            </div>
+            <div class="radio-btn" onclick="selectOption('fabric','Premium',this)" style="text-align:center">
+              👑 Premium<br><small style="color:var(--textlight);font-size:0.72rem">৳1,350</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Quantity</label>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <span class="qty-num" id="qty-display">1</span>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+            <span style="font-size:0.8rem;color:var(--textmid);margin-left:4px">set(s)</span>
+          </div>
+        </div>
+
+        <div class="dress-preview">
+          <div class="preview-title">Your Order Summary</div>
+          <div class="preview-tags" id="preview-tags">
+            <span class="tag">Boy</span><span class="tag">Size S</span>
+            <span class="tag">Full Sleeve</span><span class="tag">Pant</span>
+            <span class="tag">Cotton Fabric</span>
+          </div>
+        </div>
+
+        <div class="price-summary">
+          <div class="price-row"><span>Base price (1 set)</span><span id="base-price">৳850</span></div>
+          <div class="price-row"><span>Quantity</span><span id="qty-label">× 1</span></div>
+          <div class="price-row"><span>Delivery charge</span><span>৳60</span></div>
+          <div class="price-row price-total">
+            <span>Total Amount</span><span id="total-price" style="color:var(--red);font-size:1.05rem">৳910</span>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:1.3rem">
+          <button class="btn btn-navy" style="flex:1" onclick="addSchoolDressToCart()">🛒 Add to Cart</button>
+          <button class="btn btn-primary" style="flex:2" onclick="addSchoolDressToCart();showPage('cart')">Order Now →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAILORS PAGE ==================== -->
+  <div class="page" id="page-tailors">
+    <div class="page-header">
+      <h2>Find a Tailor</h2>
+      <p>Browse 1,200+ verified tailors across Bangladesh</p>
+    </div>
+    <div class="filter-bar">
+      <input class="search-field" type="text" placeholder="🔍  Search by name or location..." oninput="filterTailors(this.value)" style="flex:1;max-width:400px">
+    </div>
+    <div class="chip-bar">
+      <button class="filter-chip active" onclick="setTailorFilter('all',this)">All Tailors</button>
+      <button class="filter-chip" onclick="setTailorFilter('top',this)">⭐ Top Rated</button>
+      <button class="filter-chip" onclick="setTailorFilter('pro',this)">🏅 Pro Tailor</button>
+      <button class="filter-chip" onclick="setTailorFilter('nearby',this)">📍 Nearby</button>
+      <button class="filter-chip" onclick="setTailorFilter('express',this)">⚡ Express</button>
+    </div>
+    <div class="tailor-grid" id="tailor-grid"></div>
+  </div>
+
+  <!-- ==================== TAILOR PROFILE ==================== -->
+  <div class="page" id="page-tailor-profile">
+    <div class="back-bar">
+      <button class="back-btn" onclick="showPage('tailors')">← All Tailors</button>
+      <span style="color:rgba(255,255,255,0.6);font-size:0.82rem">Tailor Profile</span>
+    </div>
+    <div class="profile-hero">
+      <div class="profile-top">
+        <div class="profile-avatar" id="p-avatar">🧑</div>
+        <div>
+          <div class="profile-name" id="p-name">Tailor Name</div>
+          <div style="color:rgba(255,255,255,0.55);font-size:0.85rem;margin-top:3px" id="p-loc">📍 Location</div>
+          <div class="profile-tags" id="p-tags"></div>
+        </div>
+      </div>
+      <div class="profile-stats">
+        <div class="stat-box"><div class="stat-num" id="p-rating">4.9</div><div class="stat-label">Rating</div></div>
+        <div class="stat-box"><div class="stat-num" id="p-orders">342</div><div class="stat-label">Orders</div></div>
+        <div class="stat-box"><div class="stat-num" id="p-exp">8yr</div><div class="stat-label">Experience</div></div>
+      </div>
+    </div>
+
+    <div style="padding:1.8rem 2rem">
+      <h3 style="font-size:1rem;font-weight:600;margin-bottom:1rem;color:var(--navy)">Portfolio</h3>
+      <div class="portfolio-grid">
+        <div class="portfolio-item">👔</div><div class="portfolio-item">👗</div>
+        <div class="portfolio-item">🥻</div><div class="portfolio-item">🕌</div>
+        <div class="portfolio-item">👘</div><div class="portfolio-item">🧥</div>
+      </div>
+
+      <div style="margin-top:1.8rem">
+        <h3 style="font-size:1rem;font-weight:600;margin-bottom:1rem;color:var(--navy)">Services & Pricing</h3>
+        <div style="background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:0.5rem 1.2rem" id="p-services"></div>
+      </div>
+
+      <div style="margin-top:1.8rem">
+        <h3 style="font-size:1rem;font-weight:600;margin-bottom:1rem;color:var(--navy)">Customer Reviews</h3>
+        <div id="p-reviews"></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1.5rem">
+        <button class="btn btn-navy" onclick="showToast('Tailor saved to favourites!')">♡ Save Tailor</button>
+        <button class="btn btn-primary" onclick="showCustomOrder()">📋 Custom Order →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CUSTOM ORDER ==================== -->
+  <div class="page" id="page-custom-order">
+    <div class="back-bar">
+      <button class="back-btn" onclick="showPage('tailor-profile')">← Profile</button>
+      <span style="color:rgba(255,255,255,0.6);font-size:0.82rem">Custom Order</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;padding:1rem 1.8rem;background:var(--light);border-bottom:1px solid var(--border)">
+      <div style="width:42px;height:42px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:1.3rem">🧑</div>
+      <div>
+        <div style="font-weight:600;font-size:0.9rem" id="co-tailor-name">Rahim Tailors</div>
+        <div style="font-size:0.78rem;color:var(--textmid)">New Custom Order Request</div>
+      </div>
+    </div>
+
+    <div class="order-steps" id="order-steps">
+      <div class="step-item"><div class="step-circle active" id="step-1">1</div><div class="step-label">Dress Type</div></div>
+      <div class="step-line" id="line-1"></div>
+      <div class="step-item"><div class="step-circle" id="step-2">2</div><div class="step-label">Measurements</div></div>
+      <div class="step-line" id="line-2"></div>
+      <div class="step-item"><div class="step-circle" id="step-3">3</div><div class="step-label">Fabric</div></div>
+      <div class="step-line" id="line-3"></div>
+      <div class="step-item"><div class="step-circle" id="step-4">4</div><div class="step-label">Confirm</div></div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="order-section" id="co-step1">
+      <h3 style="font-size:1rem;font-weight:600;margin-bottom:1rem;color:var(--navy)">What would you like stitched?</h3>
+      <div class="dress-type-grid">
+        <div class="dress-type-item selected" onclick="selectDressType(this,'Shirt')"><div class="dress-type-icon">👔</div><div class="dress-type-name">Shirt</div></div>
+        <div class="dress-type-item" onclick="selectDressType(this,'Suit')"><div class="dress-type-icon">🤵</div><div class="dress-type-name">Suit</div></div>
+        <div class="dress-type-item" onclick="selectDressType(this,'Panjabi')"><div class="dress-type-icon">🕌</div><div class="dress-type-name">Panjabi</div></div>
+        <div class="dress-type-item" onclick="selectDressType(this,'Saree Blouse')"><div class="dress-type-icon">🥻</div><div class="dress-type-name">Saree Blouse</div></div>
+        <div class="dress-type-item" onclick="selectDressType(this,'Salwar Kameez')"><div class="dress-type-icon">👘</div><div class="dress-type-name">Salwar Kameez</div></div>
+        <div class="dress-type-item" onclick="selectDressType(this,'Pant')"><div class="dress-type-icon">👖</div><div class="dress-type-name">Pant</div></div>
+        <div class="dress-type-item" onclick="selectDressType(this,'Kurta')"><div class="dress-type-icon">🧥</div><div class="dress-type-name">Kurta</div></div>
+        <div class="dress-type-item" onclick="selectDressType(this,'Custom Design')"><div class="dress-type-icon">✏️</div><div class="dress-type-name">Custom</div></div>
+      </div>
+      <button class="btn btn-primary btn-block" style="margin-top:1.5rem" onclick="goToStep(2)">Next: Measurements →</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="order-section" id="co-step2" style="display:none">
+      <h3 style="font-size:1rem;font-weight:600;margin-bottom:0.4rem;color:var(--navy)">Enter Your Measurements</h3>
+      <p style="font-size:0.82rem;color:var(--textmid);margin-bottom:1.2rem">All measurements in inches. Leave blank if unsure — our tailor will measure during pickup.</p>
+      <div class="measure-grid">
+        <div><label class="form-label">Chest</label><input class="measure-input" type="number" placeholder="e.g. 38" id="m-chest"></div>
+        <div><label class="form-label">Waist</label><input class="measure-input" type="number" placeholder="e.g. 32" id="m-waist"></div>
+        <div><label class="form-label">Shoulder</label><input class="measure-input" type="number" placeholder="e.g. 17" id="m-shoulder"></div>
+        <div><label class="form-label">Sleeve Length</label><input class="measure-input" type="number" placeholder="e.g. 24" id="m-sleeve"></div>
+        <div><label class="form-label">Shirt Length</label><input class="measure-input" type="number" placeholder="e.g. 28" id="m-length"></div>
+        <div><label class="form-label">Hip</label><input class="measure-input" type="number" placeholder="e.g. 40" id="m-hip"></div>
+      </div>
+      <div class="tip-box" style="margin-top:1.2rem">
+        <span>💡</span>
+        <span>Our tailor will confirm all measurements when picking up your fabric. Don't worry if some fields are blank!</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:1.5rem">
+        <button class="btn btn-navy" style="flex:1" onclick="goToStep(1)">← Back</button>
+        <button class="btn btn-primary" style="flex:2" onclick="goToStep(3)">Next: Select Fabric →</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="order-section" id="co-step3" style="display:none">
+      <h3 style="font-size:1rem;font-weight:600;margin-bottom:1rem;color:var(--navy)">Choose Your Fabric</h3>
+      <div class="fabric-option selected" onclick="selectFabric(this,'Cotton')">
+        <span class="fabric-icon">🧶</span>
+        <div><div style="font-weight:600;font-size:0.9rem">Cotton</div><div style="font-size:0.78rem;color:var(--textmid);margin-top:2px">Light & breathable · Best for daily wear · ৳400–600</div></div>
+      </div>
+      <div class="fabric-option" onclick="selectFabric(this,'Linen')">
+        <span class="fabric-icon">🌿</span>
+        <div><div style="font-weight:600;font-size:0.9rem">Linen</div><div style="font-size:0.78rem;color:var(--textmid);margin-top:2px">Premium look · Wrinkle-resistant · ৳600–900</div></div>
+      </div>
+      <div class="fabric-option" onclick="selectFabric(this,'Silk')">
+        <span class="fabric-icon">✨</span>
+        <div><div style="font-weight:600;font-size:0.9rem">Silk</div><div style="font-size:0.78rem;color:var(--textmid);margin-top:2px">Occasion & wedding wear · Luxurious feel · ৳900–1500</div></div>
+      </div>
+      <div class="fabric-option" onclick="selectFabric(this,'Muslin')">
+        <span class="fabric-icon">🪡</span>
+        <div><div style="font-weight:600;font-size:0.9rem">Muslin (মসলিন)</div><div style="font-size:0.78rem;color:var(--textmid);margin-top:2px">Traditional Bangladeshi · Heritage quality · ৳700–1200</div></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:1.5rem">
+        <button class="btn btn-navy" style="flex:1" onclick="goToStep(2)">← Back</button>
+        <button class="btn btn-primary" style="flex:2" onclick="goToStep(4)">Next: Confirm →</button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="order-section" id="co-step4" style="display:none">
+      <h3 style="font-size:1rem;font-weight:600;margin-bottom:1rem;color:var(--navy)">Order Summary</h3>
+      <div class="price-summary">
+        <div class="price-row"><span>Dress Type</span><span id="confirm-type" style="font-weight:600;color:var(--text)">Shirt</span></div>
+        <div class="price-row"><span>Fabric</span><span id="confirm-fabric" style="font-weight:600;color:var(--text)">Cotton</span></div>
+        <div class="price-row"><span>Tailor</span><span id="confirm-tailor" style="font-weight:600;color:var(--text)">—</span></div>
+        <div class="price-row"><span>Stitching fee</span><span>৳500</span></div>
+        <div class="price-row"><span>Delivery</span><span>৳80</span></div>
+        <div class="price-row price-total">
+          <span>Estimated Total</span>
+          <span style="color:var(--red);font-size:1.05rem">৳1,380</span>
+        </div>
+      </div>
+      <div class="warn-box">
+        <span>⚠️</span>
+        <span>Final price confirmed by tailor after measurement review. Fabric cost not included — bring your own or select from tailor's stock. Delivery in 5–7 working days.</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:1.5rem">
+        <button class="btn btn-navy" style="flex:1" onclick="goToStep(3)">← Back</button>
+        <button class="btn btn-primary" style="flex:2" onclick="placeCustomOrder()">✓ Confirm & Place Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CART PAGE ==================== -->
+  <div class="page" id="page-cart">
+    <div class="page-header">
+      <h2>Your Cart</h2>
+      <p id="cart-sub">0 items in cart</p>
+    </div>
+    <div class="cart-page">
+      <div id="cart-content">
+        <div class="empty-state">
+          <span class="empty-icon">🛒</span>
+          <div class="empty-text">Your cart is empty<br><br>
+            <button class="btn btn-primary" onclick="showPage('school')">Browse School Uniforms</button>
+            &nbsp;
+            <button class="btn btn-navy" onclick="showPage('tailors')">Find a Tailor</button>
+          </div>
+        </div>
+      </div>
+      <div id="cart-summary-section" style="display:none">
+        <div class="cart-summary">
+          <div class="price-row"><span>Subtotal</span><span id="cart-subtotal">৳0</span></div>
+          <div class="price-row"><span>Delivery charge</span><span>৳60</span></div>
+          <div class="price-row price-total"><span>Grand Total</span><span id="cart-total" style="color:var(--red)">৳60</span></div>
+        </div>
+        <div class="checkout-form">
+          <h3 style="font-size:1.05rem;font-weight:600;margin-bottom:1.3rem;color:var(--navy)">Delivery Details</h3>
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input class="search-field" type="text" placeholder="Your full name" style="width:100%">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input class="search-field" type="tel" placeholder="01XXXXXXXXX" style="width:100%">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Delivery Address</label>
+            <textarea class="search-field" rows="3" placeholder="House/Flat No., Road, Area, City, District" style="width:100%;resize:none;font-family:'DM Sans',sans-serif"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Payment Method</label>
+            <div class="payment-methods">
+              <div class="payment-option selected" onclick="selectPayment(this)">
+                <div class="payment-icon">📱</div><div class="payment-name">bKash</div>
+              </div>
+              <div class="payment-option" onclick="selectPayment(this)">
+                <div class="payment-icon">📲</div><div class="payment-name">Nagad</div>
+              </div>
+              <div class="payment-option" onclick="selectPayment(this)">
+                <div class="payment-icon">💳</div><div class="payment-name">Card</div>
+              </div>
+              <div class="payment-option" onclick="selectPayment(this)">
+                <div class="payment-icon">💵</div><div class="payment-name">Cash on Delivery</div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" style="margin-top:1.3rem;padding:14px" onclick="placeOrder()">Place Order →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TRACKING PAGE ==================== -->
+  <div class="page" id="page-tracking">
+    <div class="tracking-hero">
+      <div class="order-id-badge">#TG-2025-00847</div>
+      <h2 style="font-size:1.5rem;margin-bottom:0.4rem">Order Tracking</h2>
+      <p style="opacity:0.58;font-size:0.85rem">School Uniform · Dhaka Residential Model College</p>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-label">
+      <span style="color:var(--red);font-weight:600">Stitching Completed</span>
+      &nbsp;·&nbsp; Estimated Delivery: April 13, 2025
+    </div>
+
+    <div class="tracking-steps">
+      <div class="track-item done">
+        <div class="track-dot done">✓</div>
+        <div class="track-content">
+          <div class="track-title">Order Placed</div>
+          <div class="track-date">April 8, 2025 · 10:30 AM</div>
+          <div class="track-note">Your order was confirmed and payment received. Order forwarded to tailor.</div>
+        </div>
+      </div>
+      <div class="track-item done">
+        <div class="track-dot done">✓</div>
+        <div class="track-content">
+          <div class="track-title">In Production</div>
+          <div class="track-date">April 9, 2025 · 9:00 AM</div>
+          <div class="track-note">Fabric cutting and preparation in progress at Rahim Tailors, Dhanmondi.</div>
+        </div>
+      </div>
+      <div class="track-item done">
+        <div class="track-dot active">✂️</div>
+        <div class="track-content">
+          <div class="track-title">Stitching Completed</div>
+          <div class="track-date">April 10, 2025 · 2:15 PM</div>
+          <div class="track-note">Stitching done. Quality check and final finishing touches in progress.</div>
+        </div>
+      </div>
+      <div class="track-item">
+        <div class="track-dot">🚚</div>
+        <div class="track-content">
+          <div class="track-title">Out for Delivery</div>
+          <div class="track-date">Estimated: April 12, 2025</div>
+        </div>
+      </div>
+      <div class="track-item">
+        <div class="track-dot">🏠</div>
+        <div class="track-content">
+          <div class="track-title">Delivered</div>
+          <div class="track-date">Estimated: April 13, 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:0 2rem 1rem">
+      <div style="background:var(--light);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem">
+        <div style="font-weight:600;font-size:0.88rem;margin-bottom:0.8rem;color:var(--navy)">Delivery Address</div>
+        <div style="font-size:0.85rem;color:var(--textmid);line-height:1.6">House 12, Road 7, Block B<br>Mirpur DOHS, Dhaka - 1216<br>Phone: 01712-345678</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DASHBOARD ==================== -->
+  <div class="page" id="page-dashboard">
+    <div class="dash-welcome">
+      <div>
+        <div style="opacity:0.55;font-size:0.78rem;letter-spacing:0.5px;text-transform:uppercase">Welcome back</div>
+        <h2 style="font-size:1.3rem;color:white;font-family:'DM Sans',sans-serif;font-weight:600;margin-top:3px">Karim Ahmed</h2>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.45);margin-top:2px">📍 Dhaka · Member since 2024</div>
+      </div>
+      <div class="dash-avatar">KA</div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="dash-card"><div class="dash-card-icon">📦</div><div class="dash-card-num">7</div><div class="dash-card-label">Total Orders</div></div>
+      <div class="dash-card"><div class="dash-card-icon">⭐</div><div class="dash-card-num">4.8</div><div class="dash-card-label">Avg Rating Given</div></div>
+      <div class="dash-card"><div class="dash-card-icon">📐</div><div class="dash-card-num">3</div><div class="dash-card-label">Saved Measurements</div></div>
+      <div class="dash-card"><div class="dash-card-icon">🔖</div><div class="dash-card-num">5</div><div class="dash-card-label">Saved Tailors</div></div>
+    </div>
+
+    <div class="dash-section">
+      <h3 style="font-size:1rem;font-weight:600;margin-bottom:1rem;color:var(--navy)">Recent Orders</h3>
+      <div class="dash-orders">
+        <div class="dash-order" onclick="showPage('tracking')">
+          <div class="dash-order-icon">🏫</div>
+          <div class="dash-order-info">
+            <div class="dash-order-name">DRMC School Uniform · Size M · Cotton</div>
+            <div class="dash-order-status"><span class="status-badge status-stitching">Stitching Completed</span></div>
+          </div>
+          <span style="color:var(--textlight);font-size:1rem">›</span>
+        </div>
+        <div class="dash-order">
+          <div class="dash-order-icon">👔</div>
+          <div class="dash-order-info">
+            <div class="dash-order-name">Custom Shirt · Rahim Tailors · Linen</div>
+            <div class="dash-order-status"><span class="status-badge status-delivered">Delivered</span></div>
+          </div>
+          <span style="color:var(--textlight);font-size:1rem">›</span>
+        </div>
+        <div class="dash-order">
+          <div class="dash-order-icon">🕌</div>
+          <div class="dash-order-info">
+            <div class="dash-order-name">Eid Panjabi · Shahanara Fashion · Muslin</div>
+            <div class="dash-order-status"><span class="status-badge status-delivered">Delivered</span></div>
+          </div>
+          <span style="color:var(--textlight);font-size:1rem">›</span>
+        </div>
+        <div class="dash-order">
+          <div class="dash-order-icon">🥻</div>
+          <div class="dash-order-info">
+            <div class="dash-order-name">Salwar Kameez · Al-Amin Boutique · Cotton</div>
+            <div class="dash-order-status"><span class="status-badge status-production">In Production</span></div>
+          </div>
+          <span style="color:var(--textlight);font-size:1rem">›</span>
+        </div>
+      </div>
+
+      <h3 style="font-size:1rem;font-weight:600;margin:1.5rem 0 1rem;color:var(--navy)">Saved Measurements</h3>
+      <div class="measure-profile">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-weight:600;font-size:0.9rem">Profile 1 – Regular Fit</div><div style="font-size:0.78rem;color:var(--textmid);margin-top:2px">Last updated: March 2025</div></div>
+          <button class="btn btn-sm btn-navy">Edit</button>
+        </div>
+        <div class="measure-mini-grid">
+          <div class="measure-mini"><div class="measure-mini-label">Chest</div><div class="measure-mini-val">40"</div></div>
+          <div class="measure-mini"><div class="measure-mini-label">Waist</div><div class="measure-mini-val">34"</div></div>
+          <div class="measure-mini"><div class="measure-mini-label">Shoulder</div><div class="measure-mini-val">17"</div></div>
+          <div class="measure-mini"><div class="measure-mini-label">Sleeve</div><div class="measure-mini-val">24"</div></div>
+          <div class="measure-mini"><div class="measure-mini-label">Length</div><div class="measure-mini-val">28"</div></div>
+          <div class="measure-mini"><div class="measure-mini-label">Hip</div><div class="measure-mini-val">40"</div></div>
+        </div>
+      </div>
+      <button class="btn btn-navy btn-sm" style="margin-bottom:2rem">+ Add New Measurement Profile</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const schools = [
+  {name:'Dhaka Residential Model College',city:'Dhaka',div:'Dhaka',type:'Govt'},
+  {name:'Viqarunnisa Noon School & College',city:'Dhaka',div:'Dhaka',type:'Private'},
+  {name:'Motijheel Ideal School & College',city:'Dhaka',div:'Dhaka',type:'Private'},
+  {name:'Udayan Higher Secondary School',city:'Dhaka',div:'Dhaka',type:'Govt'},
+  {name:'Nawab Faizunnesa Govt. Girls High School',city:'Dhaka',div:'Dhaka',type:'Govt'},
+  {name:'Tejgaon Govt. High School',city:'Dhaka',div:'Dhaka',type:'Govt'},
+  {name:'Mirpur Bangla School & College',city:'Dhaka',div:'Dhaka',type:'Private'},
+  {name:'Narayanganj Govt. Girls High School',city:'Narayanganj',div:'Dhaka',type:'Govt'},
+  {name:'Chittagong Collegiate School',city:'Chittagong',div:'Chittagong',type:'Govt'},
+  {name:'Cadet College Chittagong',city:'Chittagong',div:'Chittagong',type:'Cadet'},
+  {name:'Nasirabad Govt. High School',city:'Chittagong',div:'Chittagong',type:'Govt'},
+  {name:'Chittagong Grammar School',city:'Chittagong',div:'Chittagong',type:'Private'},
+  {name:'Rajshahi Collegiate School',city:'Rajshahi',div:'Rajshahi',type:'Govt'},
+  {name:'Rajshahi Govt. Girls High School',city:'Rajshahi',div:'Rajshahi',type:'Govt'},
+  {name:'Sylhet Government Alia Madrasha',city:'Sylhet',div:'Sylhet',type:'Govt'},
+  {name:'Blue Bird School & College',city:'Sylhet',div:'Sylhet',type:'Private'},
+  {name:'Khulna Zilla School',city:'Khulna',div:'Khulna',type:'Govt'},
+  {name:'Barisal Govt. Model School & College',city:'Barisal',div:'Barisal',type:'Govt'},
+  {name:'Mymensingh Zilla School',city:'Mymensingh',div:'Mymensingh',type:'Govt'},
+];
+
+const tailors = [
+  {name:'Rahim Tailors',loc:'Dhanmondi, Dhaka',avatar:'🧑',rating:4.9,orders:342,exp:'8yr',pro:true,nearby:true,express:false,
+   services:[{t:'Formal Shirt',p:'৳350–500'},{t:'Dress Pant',p:'৳250–400'},{t:'Suit (2-piece)',p:'৳1500–2500'},{t:'Panjabi',p:'৳400–700'},{t:'School Uniform',p:'৳600–950'}],
+   reviews:[{n:'Ahmed Hossain',r:'★★★★★',c:'Excellent work! The shirt fit perfectly on the first try. Very professional.',d:'March 2025'},{n:'Sara Begum',r:'★★★★★',c:'Very professional tailor, delivered 2 days early. Highly recommended!',d:'Feb 2025'},{n:'Jahid Islam',r:'★★★★★',c:'My kids school uniforms were stitched beautifully. Will order again.',d:'Jan 2025'}]},
+  {name:'Shahanara Fashion',loc:'Gulshan, Dhaka',avatar:'👩',rating:4.8,orders:218,exp:'12yr',pro:true,nearby:false,express:true,
+   services:[{t:'Saree Blouse',p:'৳400–700'},{t:'Salwar Kameez',p:'৳600–1000'},{t:'Bridal Lehenga',p:'৳3000+'},{t:'Kurta',p:'৳450–700'},{t:'Party Gown',p:'৳1500–3000'}],
+   reviews:[{n:'Nadia Islam',r:'★★★★★',c:'She made my wedding dress – absolutely stunning! Every detail was perfect.',d:'Jan 2025'},{n:'Rima Akter',r:'★★★★☆',c:'Great stitching quality on the salwar kameez. Slightly delayed but worth the wait.',d:'Dec 2024'}]},
+  {name:'Al-Amin Boutique',loc:'Agrabad, Chittagong',avatar:'🧑',rating:4.7,orders:156,exp:'6yr',pro:false,nearby:false,express:false,
+   services:[{t:'Casual Shirt',p:'৳280–420'},{t:'Formal Pant',p:'৳200–350'},{t:'Panjabi',p:'৳350–600'},{t:'School Uniform',p:'৳600–900'}],
+   reviews:[{n:'Sabbir Rahman',r:'★★★★★',c:'Best tailor in Agrabad area. Very affordable and quality work.',d:'March 2025'},{n:'Mitu Dey',r:'★★★★☆',c:'Good quality cotton work. Reasonable prices.',d:'Feb 2025'}]},
+  {name:'Fashion Point BD',loc:'Mirpur, Dhaka',avatar:'👨',rating:4.6,orders:89,exp:'4yr',pro:false,nearby:true,express:true,
+   services:[{t:'Casual Shirt',p:'৳300–450'},{t:'Jogger Pant',p:'৳220–380'},{t:'Kurta',p:'৳380–600'}],
+   reviews:[{n:'Tanvir Hasan',r:'★★★★★',c:'Young talented tailor, very reasonable prices and fast delivery!',d:'April 2025'}]},
+  {name:'Royal Stitch House',loc:'Uttara, Dhaka',avatar:'👩',rating:4.5,orders:204,exp:'10yr',pro:true,nearby:false,express:false,
+   services:[{t:'Coat',p:'৳2000–3500'},{t:'Suit (3-piece)',p:'৳2500–4500'},{t:'Blazer',p:'৳1500–2500'},{t:'Formal Shirt',p:'৳400–600'}],
+   reviews:[{n:'Dr. Fakhrul Islam',r:'★★★★★',c:'The suit was perfectly tailored for my conference presentation. Impeccable fit.',d:'March 2025'}]},
+  {name:'Boro Bhai Tailor',loc:'Old Dhaka',avatar:'🧔',rating:4.4,orders:521,exp:'20yr',pro:false,nearby:true,express:true,
+   services:[{t:'Any garment',p:'৳150–800'},{t:'Alteration & Repair',p:'৳50–200'},{t:'School Uniform',p:'৳500–800'}],
+   reviews:[{n:'Jalal Mia',r:'★★★★★',c:'20 years of experience clearly shows. The best in Old Dhaka.',d:'April 2025'},{n:'Kohinoor Begum',r:'★★★★☆',c:'Quick service, good prices. My go-to tailor for alterations.',d:'March 2025'}]},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let cart=[], state={gender:'Boy',shirt:'Full Sleeve',bottom:'Pant',fabric:'Cotton',size:'S',qty:1,school:'',schoolLoc:''},
+    activeTailor=0, customOrder={type:'Shirt',fabric:'Cotton'}, tailorFilter='all', currentStep=1;
+
+const prices={Cotton:850,Blended:1050,Premium:1350};
+
+// ============================================================
+// PRELOADER
+// ============================================================
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('preloader').classList.add('hide');
+    document.getElementById('app').classList.add('show');
+    renderSchools();
+    renderTailors();
+    updateCartUI();
+    // Animate progress bar on tracking page
+    setTimeout(()=>{
+      const pf=document.getElementById('progress-fill');
+      if(pf) pf.style.width='60%';
+    },500);
+    setTimeout(()=>{
+      document.getElementById('preloader').style.display='none';
+    },900);
+  }, 3000);
+});
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const p=document.getElementById('page-'+id);
+  if(p){p.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+}
+
+// ============================================================
+// SCHOOLS
+// ============================================================
+function renderSchools(){
+  const div=document.getElementById('div-select').value;
+  const city=document.getElementById('city-select').value;
+  const q=(document.getElementById('school-search').value||'').toLowerCase().trim();
+  const filtered=schools.filter(s=>
+    (!div||s.div===div)&&
+    (!city||s.city===city)&&
+    (!q||s.name.toLowerCase().includes(q)||s.city.toLowerCase().includes(q))
+  );
+  const badgeClass={Govt:'govt',Private:'private',Cadet:'cadet'};
+  document.getElementById('school-list').innerHTML=filtered.length
+    ? filtered.map(s=>`
+        <div class="school-item" onclick="selectSchool('${s.name.replace(/'/g,"\\'")}','${s.city}')">
+          <div>
+            <div class="school-name">🏫 ${s.name}</div>
+            <div class="school-loc">📍 ${s.city}, ${s.div} Division</div>
+          </div>
+          <span class="school-badge ${badgeClass[s.type]||''}">${s.type}</span>
+        </div>`).join('')
+    : `<div class="empty-state"><span class="empty-icon">🔍</span><div class="empty-text">No schools found matching your search.<br>Try a different name or location.</div></div>`;
+}
+
+function selectSchool(name,loc){
+  state.school=name; state.schoolLoc=loc;
+  document.getElementById('dress-school-name').textContent=name;
+  document.getElementById('dress-school-name2').textContent=name;
+  document.getElementById('dress-school-loc').textContent='📍 '+loc+' Division';
+  showPage('dress');
+}
+
+// ============================================================
+// DRESS OPTIONS
+// ============================================================
+function selectOption(type,val,el){
+  state[type]=val;
+  el.closest('.radio-group').querySelectorAll('.radio-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  updatePreview(); updatePrice();
+}
+function selectSize(el){
+  document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected'); state.size=el.textContent;
+  updatePreview();
+}
+function changeQty(d){
+  state.qty=Math.max(1,Math.min(10,state.qty+d));
+  document.getElementById('qty-display').textContent=state.qty;
+  updatePrice();
+}
+function updatePreview(){
+  document.getElementById('preview-tags').innerHTML=
+    [state.gender,'Size '+state.size,state.shirt,state.bottom,state.fabric+' Fabric']
+    .map(t=>`<span class="tag">${t}</span>`).join('');
+}
+function updatePrice(){
+  const base=prices[state.fabric]||850;
+  document.getElementById('base-price').textContent='৳'+base.toLocaleString('en-IN');
+  document.getElementById('qty-label').textContent='× '+state.qty;
+  document.getElementById('total-price').textContent='৳'+(base*state.qty+60).toLocaleString('en-IN');
+}
+function addSchoolDressToCart(){
+  cart.push({
+    type:'school',
+    name:(state.school||'School')+' Uniform',
+    sub:state.gender+' · Size '+state.size+' · '+state.shirt+' · '+state.fabric,
+    price:prices[state.fabric]||850,
+    icon:'🏫',qty:state.qty
+  });
+  updateCartUI();
+  showToast('Added to cart! 🛒');
+}
+
+// ============================================================
+// TAILORS
+// ============================================================
+function renderTailors(){
+  let filtered=tailors.filter(t=>{
+    if(tailorFilter==='top') return t.rating>=4.8;
+    if(tailorFilter==='pro') return t.pro;
+    if(tailorFilter==='nearby') return t.nearby;
+    if(tailorFilter==='express') return t.express;
+    return true;
+  });
+  document.getElementById('tailor-grid').innerHTML=filtered.length
+    ? filtered.map(t=>`
+        <div class="tailor-card" onclick="showTailorProfile(${tailors.indexOf(t)})">
+          <div class="tailor-card-top">
+            <div class="tailor-avatar-lg">${t.avatar}</div>
+            ${t.pro?'<span class="tailor-pro-badge">PRO</span>':''}
+          </div>
+          <div class="tailor-info">
+            <div class="tailor-name">${t.name}</div>
+            <div class="tailor-loc">📍 ${t.loc}</div>
+            <div class="tailor-meta">
+              <span class="tailor-rate">From ৳${t.services[0]?.p?.split('–')[0]?.replace('৳','')||280}</span>
+              <span class="tailor-rating">⭐ ${t.rating} (${t.orders} orders)</span>
+            </div>
+            <button class="btn btn-primary btn-sm btn-block" style="margin-top:0.9rem">View Profile →</button>
+          </div>
+        </div>`).join('')
+    : `<div class="empty-state" style="grid-column:1/-1"><span class="empty-icon">👗</span><div class="empty-text">No tailors found for this filter.</div></div>`;
+}
+
+function filterTailors(q){
+  const ql=q.toLowerCase();
+  document.querySelectorAll('#tailor-grid .tailor-card').forEach((c,i)=>{
+    const t=tailors[i];
+    c.style.display=!q||t.name.toLowerCase().includes(ql)||t.loc.toLowerCase().includes(ql)?'':'none';
+  });
+}
+
+function setTailorFilter(f,el){
+  tailorFilter=f;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderTailors();
+}
+
+// ============================================================
+// TAILOR PROFILE
+// ============================================================
+function showTailorProfile(idx){
+  activeTailor=idx;
+  const t=tailors[idx];
+  document.getElementById('p-avatar').textContent=t.avatar;
+  document.getElementById('p-name').textContent=t.name;
+  document.getElementById('p-loc').textContent='📍 '+t.loc;
+  document.getElementById('p-rating').textContent=t.rating;
+  document.getElementById('p-orders').textContent=t.orders;
+  document.getElementById('p-exp').textContent=t.exp;
+  document.getElementById('p-tags').innerHTML=
+    (t.pro?'<span class="profile-tag">🏅 PRO</span>':'')+
+    (t.nearby?'<span class="profile-tag">📍 Nearby</span>':'')+
+    (t.express?'<span class="profile-tag">⚡ Express</span>':'')+
+    '<span class="profile-tag">✓ Verified</span>';
+  document.getElementById('p-services').innerHTML=
+    t.services.map(s=>`<div class="service-row"><span style="font-size:0.88rem">${s.t}</span><span style="color:var(--red);font-weight:600;font-size:0.85rem">${s.p}</span></div>`).join('');
+  document.getElementById('p-reviews').innerHTML=
+    t.reviews.map(r=>`<div class="review-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="review-name">${r.n}</div>
+        <div style="color:var(--gold);font-size:0.82rem">${r.r}</div>
+      </div>
+      <div class="review-text">"${r.c}"</div>
+      <div class="review-date">${r.d}</div>
+    </div>`).join('');
+  showPage('tailor-profile');
+}
+
+// ============================================================
+// CUSTOM ORDER
+// ============================================================
+function showCustomOrder(){
+  document.getElementById('co-tailor-name').textContent=tailors[activeTailor].name;
+  document.getElementById('confirm-tailor').textContent=tailors[activeTailor].name;
+  currentStep=1; updateSteps();
+  showPage('custom-order');
+}
+
+function goToStep(n){ currentStep=n; updateSteps(); }
+
+function updateSteps(){
+  for(let i=1;i<=4;i++){
+    const s=document.getElementById('step-'+i);
+    const sec=document.getElementById('co-step'+i);
+    if(i<currentStep){s.className='step-circle done';s.textContent='✓';}
+    else if(i===currentStep){s.className='step-circle active';s.textContent=i;}
+    else{s.className='step-circle';s.textContent=i;}
+    if(sec) sec.style.display=(i===currentStep)?'block':'none';
+  }
+  for(let i=1;i<=3;i++){
+    const l=document.getElementById('line-'+i);
+    if(l) l.className='step-line'+(i<currentStep?' done':'');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function selectDressType(el,type){
+  document.querySelectorAll('.dress-type-item').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected'); customOrder.type=type;
+  document.getElementById('confirm-type').textContent=type;
+}
+
+function selectFabric(el,fab){
+  document.querySelectorAll('.fabric-option').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected'); customOrder.fabric=fab;
+  document.getElementById('confirm-fabric').textContent=fab;
+}
+
+function placeCustomOrder(){
+  cart.push({
+    type:'custom',
+    name:'Custom '+customOrder.type+' · '+tailors[activeTailor].name,
+    sub:customOrder.fabric+' fabric · Custom measurements · 5–7 day delivery',
+    price:1300,icon:'✂️',qty:1
+  });
+  updateCartUI();
+  showToast('Custom order placed! Tailor will contact you.');
+  showPage('tracking');
+}
+
+// ============================================================
+// CART
+// ============================================================
+function updateCartUI(){
+  const cnt=cart.reduce((a,i)=>a+i.qty,0);
+  document.getElementById('cart-count').textContent=cnt;
+  document.getElementById('cart-sub').textContent=cnt+' item'+(cnt!==1?'s':'')+' in cart';
+  if(cnt===0){
+    document.getElementById('cart-content').innerHTML=`
+      <div class="empty-state">
+        <span class="empty-icon">🛒</span>
+        <div class="empty-text">Your cart is empty<br><br>
+          <button class="btn btn-primary" onclick="showPage('school')">Browse School Uniforms</button>
+          &nbsp;&nbsp;
+          <button class="btn btn-navy" onclick="showPage('tailors')">Find a Tailor</button>
+        </div>
+      </div>`;
+    document.getElementById('cart-summary-section').style.display='none';
+    return;
+  }
+  const subtotal=cart.reduce((a,i)=>a+(i.price*i.qty),0);
+  document.getElementById('cart-content').innerHTML=
+    cart.map((item,idx)=>`
+      <div class="cart-item">
+        <div class="cart-item-icon">${item.icon}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-sub">${item.sub}</div>
+          <div class="cart-item-price">৳${(item.price*item.qty).toLocaleString('en-IN')}</div>
+        </div>
+        <button class="remove-btn" onclick="removeItem(${idx})" title="Remove">✕</button>
+      </div>`).join('');
+  document.getElementById('cart-subtotal').textContent='৳'+subtotal.toLocaleString('en-IN');
+  document.getElementById('cart-total').textContent='৳'+(subtotal+60).toLocaleString('en-IN');
+  document.getElementById('cart-summary-section').style.display='block';
+}
+
+function removeItem(idx){
+  cart.splice(idx,1);
+  updateCartUI();
+  showToast('Item removed from cart.');
+}
+
+function selectPayment(el){
+  document.querySelectorAll('.payment-option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function placeOrder(){
+  const name=document.querySelector('.checkout-form input[type="text"]').value;
+  const phone=document.querySelector('.checkout-form input[type="tel"]').value;
+  if(!name||!phone){
+    showToast('Please fill in name and phone number.');
+    return;
+  }
+  cart=[];
+  updateCartUI();
+  showToast('🎉 Order placed successfully! Track it live.');
+  setTimeout(()=>showPage('tracking'),800);
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>t.classList.remove('show'),3500);
+}
+</script>
+</body>
+</html>
